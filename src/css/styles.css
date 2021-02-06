@@ -1,1 +1,10 @@
-/* Your styles */
+
+div {
+    border: 3px solid #05396B;
+    display: inline-block;
+    padding: 40px;
+    background-color: yellow;
+    margin-bottom: 30px;
+    width: 300px;
+    height: 450px;
+}
