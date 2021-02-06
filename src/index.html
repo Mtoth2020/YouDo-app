@@ -2,23 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="description" content="The simple todo app"> 
-  
+  <meta name="description" content="The simple todo app">
   <title>YouDo</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
 
-<form>
+<form id="myTodoForm">
 
   <label for="newTodo">Please write in below box your TODO then click on the create button!</label><br>
   <input id="newTodo" type="text" name="newTodo" placeholder="Write here new TODO"><br>
 
+  <label for="dueDate">Due date</label><br>
+  <input id="dueDate" type="date" name="dueDate"><br>
+
+  <input id="createButton" type="submit" disabled value="CREATE"><br>
+
 </form>
 
-<button id="createButton" disabled>CREATE</button>
-<br>
+
 
 <div>
 </div>

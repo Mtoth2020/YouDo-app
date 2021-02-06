@@ -3,6 +3,7 @@ const divEl = document.querySelector('div');
 const ulElement = document.createElement("ul");
 const createButton = document.getElementById('createButton');
 const newTodoInput = document.getElementById('newTodo');
+const myTodoForm = document.getElementById("myTodoForm");
 let myTodoBasket = [];
 
 init();
@@ -16,7 +17,13 @@ function init() {
     }
 }
 
-createButton.addEventListener('click', createNewTodo);
+myTodoForm.addEventListener('submit', event => {
+    let values = [myTodoForm.newTodo.value, myTodoForm.dueDate.value];
+    createNewTodo(values);
+
+});
+
+//createButton.addEventListener('click', createNewTodo);
 
 newTodoInput.addEventListener("keyup", event => {
     event.preventDefault();
@@ -28,20 +35,22 @@ newTodoInput.addEventListener("keyup", event => {
     createButtonDisableStatus();
 });
 
-function addListItem(value) {
+function addListItem(values) {
     const liElement = document.createElement("li");
     const delButton = document.createElement("button");
-    liElement.innerText = value;
+    let valuesText = "";
+    values.forEach(item => valuesText += ` ${item} `);
+    liElement.innerText = valuesText;
     liElement.appendChild(delButton);
     delButton.innerText = "delete";
     ulElement.prepend(liElement);
     divEl.append(ulElement);
-    delButton.addEventListener('click', () => handleDelete(liElement, value));
+    delButton.addEventListener('click', () => handleDelete(liElement, values));
 }
 
-function createNewTodo() {
-    addListItem(newTodoInput.value);
-    myTodoBasket.push(newTodoInput.value);
+function createNewTodo(values) {
+    addListItem(values);
+    myTodoBasket.push(values);
     localStorage.setItem('savedList', JSON.stringify(myTodoBasket));
 }
 
@@ -57,10 +66,10 @@ function createNewTodo() {
 }
 */
 
-function handleDelete(liElement, value) {
+function handleDelete(liElement, values) {
     liElement.remove();
     const index = myTodoBasket.findIndex((element) => {
-        return element === value;
+        return element[0] === values[0];
     });
     if (index > -1) {
         myTodoBasket.splice(index, 1);
