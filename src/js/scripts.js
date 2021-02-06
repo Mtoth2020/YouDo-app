@@ -1,9 +1,12 @@
-
 const divEl = document.querySelector('div');
 const ulElement = document.createElement("ul");
 const createButton = document.getElementById('createButton');
+const changeButton = document.getElementById('changeButton');
 const newTodoInput = document.getElementById('newTodo');
 const myTodoForm = document.getElementById("myTodoForm");
+const dueDate = document.getElementById("dueDate");
+const priority = document.getElementById("priority");
+let changeIndex = null;
 let myTodoBasket = [];
 
 init();
@@ -18,11 +21,17 @@ function init() {
 }
 
 myTodoForm.addEventListener('submit', event => {
-    let values = [myTodoForm.newTodo.value, myTodoForm.dueDate.value, myTodoForm.priority.value];
-    createNewTodo(values);
-});
+    const values = [myTodoForm.newTodo.value, myTodoForm.dueDate.value, myTodoForm.priority.value];
 
-//createButton.addEventListener('click', createNewTodo);
+    if (event.submitter.id === "changeButton") {
+        if (changeIndex > -1) {
+            myTodoBasket[changeIndex] = values;
+            localStorage.setItem('savedList', JSON.stringify(myTodoBasket));
+        }
+    } else {
+        createNewTodo(values);
+    }
+});
 
 newTodoInput.addEventListener("keyup", event => {
     event.preventDefault();
@@ -37,14 +46,18 @@ newTodoInput.addEventListener("keyup", event => {
 function addListItem(values) {
     const liElement = document.createElement("li");
     const delButton = document.createElement("button");
+    const editButton = document.createElement("button");
     let valuesText = "";
     values.forEach(item => valuesText += ` ${item} `);
     liElement.innerText = valuesText;
     liElement.appendChild(delButton);
+    liElement.appendChild(editButton);
     delButton.innerText = "delete";
+    editButton.innerText = "edit";
     ulElement.prepend(liElement);
     divEl.append(ulElement);
     delButton.addEventListener('click', () => handleDelete(liElement, values));
+    editButton.addEventListener('click', () => handleEdit(liElement,values));
 }
 
 function createNewTodo(values) {
@@ -52,18 +65,6 @@ function createNewTodo(values) {
     myTodoBasket.push(values);
     localStorage.setItem('savedList', JSON.stringify(myTodoBasket));
 }
-
-/*
-function createNewTodo() {
-    const liElement = createListElement(newTodoInput.value);
-    ulElement.prepend(liElement);
-    divEl.append(ulElement);
-    myTodoBasket.push(newTodoInput.value);
-    localStorage.setItem('savedList', JSON.stringify(myTodoBasket));
-    //localStorage.setItem('savedList', JSON.stringify(divEl.innerHTML));
-    delButton.addEventListener('click', () => handleDelete(liElement));
-}
-*/
 
 function handleDelete(liElement, values) {
     liElement.remove();
@@ -74,6 +75,17 @@ function handleDelete(liElement, values) {
         myTodoBasket.splice(index, 1);
         localStorage.setItem('savedList', JSON.stringify(myTodoBasket));
     }
+}
+
+function handleEdit(liElement, values) {
+    newTodoInput.value = values[0];
+    dueDate.value = values[1];
+    priority.value = values[2];
+    createButton.classList.add("hidden");
+    changeButton.classList.remove("hidden");
+    changeIndex = myTodoBasket.findIndex((element) => {
+        return element[0] === values[0];
+    });
 }
 
 function validateInput() {
