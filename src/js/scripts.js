@@ -18,9 +18,8 @@ function init() {
 }
 
 myTodoForm.addEventListener('submit', event => {
-    let values = [myTodoForm.newTodo.value, myTodoForm.dueDate.value];
+    let values = [myTodoForm.newTodo.value, myTodoForm.dueDate.value, myTodoForm.priority.value];
     createNewTodo(values);
-
 });
 
 //createButton.addEventListener('click', createNewTodo);
