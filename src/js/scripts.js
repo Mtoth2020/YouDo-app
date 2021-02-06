@@ -6,6 +6,7 @@ const newTodoInput = document.getElementById('newTodo');
 const myTodoForm = document.getElementById("myTodoForm");
 const dueDate = document.getElementById("dueDate");
 const priority = document.getElementById("priority");
+const priorityFilter = document.getElementById("priorityFilter");
 let changeIndex = null;
 let myTodoBasket = [];
 
@@ -41,6 +42,10 @@ newTodoInput.addEventListener("keyup", event => {
         newTodoInput.style.backgroundColor= 'greenyellow';
     }
     createButtonDisableStatus();
+});
+
+priorityFilter.addEventListener("change", event => {
+    filterTask(priorityFilter.value);
 });
 
 function addListItem(values) {
@@ -99,6 +104,33 @@ function createButtonDisableStatus() {
         createButton.disabled = false;
     } else {
         createButton.disabled = true;
+    }
+}
+
+function filterTask(value) {
+    const liElements = ulElement.getElementsByTagName("li");
+    for (let i = 0; i < liElements.length; i++) {
+        const txtValue = liElements[i].innerText;
+        let trimmedText = "";
+        let trimmedLength = txtValue.length - 11;
+        switch (value.toUpperCase()) {
+            case "LOW":
+                trimmedText = txtValue.substring(trimmedLength - 3, trimmedLength);
+                break;
+            case "MEDIUM":
+                trimmedText = txtValue.substring(trimmedLength - 6, trimmedLength);
+                break;
+            case "HIGH":
+                trimmedText = txtValue.substring(trimmedLength - 4, trimmedLength);
+                break;
+            default:
+                trimmedText = "all";
+        }
+        if (trimmedText === value) {
+            liElements[i].style.display = "";
+        } else {
+            liElements[i].style.display = "none";
+        }
     }
 }
 

@@ -11,7 +11,7 @@
 
 <form id="myTodoForm">
 
-  <label for="newTodo">Please write in below box your TODO then click on the create button!</label><br>
+  <label for="newTodo">Write in below box your TODO task:</label><br>
   <input id="newTodo" type="text" name="newTodo" placeholder="Write here new TODO"><br>
 
   <label for="dueDate">Due date</label><br>
@@ -31,6 +31,14 @@
 
 </form>
 
+<label for="priorityFilter">Filter by priority</label>
+<select name="priorityFilter" id="priorityFilter">
+  <option value="low">Low</option>
+  <option value="medium">Medium</option>
+  <option value="high">High</option>
+  <option value="all" selected="selected">All items</option>
+</select>
+<br>
 <div>
 </div>
 
